@@ -27,7 +27,7 @@ gem install ruby_http_client
 ```ruby
 require 'ruby_http_client'
 global_headers = {'Authorization' => 'Basic XXXXXXX' }
-client = SendGrid::Client(host: 'base_url', request_headers: global_headers)
+client = SendGrid::Client.new(host: 'base_url', request_headers: global_headers)
 client.your.api._(param).call.get
 puts response.status_code
 puts response.body
@@ -39,7 +39,7 @@ puts response.headers
 ```ruby
 require 'ruby_http_client'
 global_headers = {'Authorization' => 'Basic XXXXXXX' }
-client = SendGrid::Client(host: 'base_url', request_headers: global_headers)
+client = SendGrid::Client.new(host: 'base_url', request_headers: global_headers)
 query_params = { 'hello' => 0, 'world' => 1 }
 request_headers = { 'X-Test' => 'test' }
 data = { 'some' => 1, 'awesome' => 2, 'data' => 3}
