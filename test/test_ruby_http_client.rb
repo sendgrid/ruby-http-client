@@ -160,6 +160,16 @@ class TestClient < Minitest::Test
     assert_equal(http.verify_mode, OpenSSL::SSL::VERIFY_PEER)
   end
 
+  def test_open_timeout
+    @client.build_request('post', nil, open_timeout: 2)
+    assert_equal(@client.http.open_timeout, 2)
+  end
+
+  def test_read_timeout
+    @client.build_request('post', nil, read_timeout: 2)
+    assert_equal(@client.http.read_timeout, 2)
+  end
+
   def test__
     url1 = @client._('test')
     assert_equal(['test'], url1.url_path)
