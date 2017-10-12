@@ -135,10 +135,13 @@ module SendGrid
     # * *Returns* :
     #   - A Response object from make_request
     #
-    def build_request(name, args)
+    def build_request(name, args, read_timeout: 60, open_timeout: 60)
       build_args(args) if args
       uri = build_url(query_params: @query_params)
-      @http = add_ssl(Net::HTTP.new(uri.host, uri.port))
+      base_http = Net::HTTP.new(uri.host, uri.port)
+      base_http.read_timeout = read_timeout
+      base_http.open_timeout = open_timeout
+      @http = add_ssl(base_http)
       net_http = Kernel.const_get('Net::HTTP::' + name.to_s.capitalize)
       @request = build_request_headers(net_http.new(uri.request_uri))
       if (@request_body &&
