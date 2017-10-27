@@ -5,6 +5,7 @@
 [![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE.txt)
 [![Twitter Follow](https://img.shields.io/twitter/follow/sendgrid.svg?style=social&label=Follow)](https://twitter.com/sendgrid)
 [![GitHub contributors](https://img.shields.io/github/contributors/sendgrid/ruby-http-client.svg)](https://github.com/sendgrid/ruby-http-client/graphs/contributors)
+[![Gem Version](https://badge.fury.io/rb/ruby_http_client.svg)](https://badge.fury.io/rb/ruby_http_client)
 
 **Quickly and easily access any RESTful or RESTful-like API.**
 
