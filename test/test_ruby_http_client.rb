@@ -165,6 +165,18 @@ class TestClient < Minitest::Test
     assert_equal(['test'], url1.url_path)
   end
 
+  def test_ratelimit_core
+    expiry = Time.now.to_i + 1
+    rl  = SendGrid::Response::Ratelimit.new(500, 100, expiry)
+    rl2 = SendGrid::Response::Ratelimit.new(500, 0, expiry)
+
+    refute rl.exceeded?
+    assert rl2.exceeded?
+
+    assert_equal(rl.used, 400)
+    assert_equal(rl2.used, 500)
+  end
+
   def test_method_missing
     response = @client.get
     assert_equal(200, response.status_code)

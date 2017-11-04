@@ -6,6 +6,52 @@ module SendGrid
 
   # Holds the response from an API call.
   class Response
+    # Provide useful functionality around API rate limiting.
+    class Ratelimit
+      attr_reader :limit, :remaining, :reset
+
+      # * *Args*    :
+      #   - +limit+ -> The total number of requests allowed within a rate limit window
+      #   - +remaining+ -> The number of requests that have been processed within this current rate limit window
+      #   - +reset+ -> The time (in seconds since Unix Epoch) when the rate limit will reset
+      def initialize(limit, remaining, reset)
+        @limit = limit.to_i
+        @remaining = remaining.to_i
+        @reset = reset.to_i
+        @reset = Time.at reset.to_i
+      end
+
+      def exceeded?
+        remaining <= 0
+      end
+
+      # * *Returns* :
+      #   - The number of requests that have been used out of this
+      #     rate limit window
+      def used
+        limit - remaining
+      end
+
+      # Sleep until the reset time arrives. If given a block, it will
+      # be called after sleeping is finished.
+      #
+      # * *Returns* :
+      #   - The amount of time (in seconds) that the rate limit slept
+      #     for.
+      def wait!
+        now = Time.now.utc.to_i
+        duration = (reset.to_i - now) + 1
+
+        if duration >= 0
+          sleep duration
+        end
+
+        yield if block_given?
+
+        duration
+      end
+    end
+    
     # * *Args*    :
     #   - +response+ -> A NET::HTTP response object
     #
