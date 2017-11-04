@@ -11,6 +11,18 @@ class MockResponse
   end
 end
 
+class MockHttpResponse
+  attr_reader :code, :body, :headers
+
+  def initialize(code, body, headers)
+    @code = code
+    @body = body
+    @headers = headers
+  end
+
+  alias :to_hash :headers
+end
+
 class MockRequest < SendGrid::Client
   def make_request(_http, _request)
     response = {}
@@ -175,6 +187,23 @@ class TestClient < Minitest::Test
 
     assert_equal(rl.used, 400)
     assert_equal(rl2.used, 500)
+  end
+
+  def test_response_ratelimit_parsing
+
+    headers = {
+      'X-RateLimit-Limit' => '500',
+      'X-RateLimit-Remaining' => '300',
+      'X-RateLimit-Reset' => "#{Time.now.to_i}",
+    }
+
+    body = ''
+    code = 204
+    http_response = MockHttpResponse.new(code, body, headers)
+    response = SendGrid::Response.new(http_response)
+
+    refute_nil response.ratelimit
+    refute response.ratelimit.exceeded?
   end
 
   def test_method_missing

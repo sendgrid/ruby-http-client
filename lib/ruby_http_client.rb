@@ -67,6 +67,22 @@ module SendGrid
     def parsed_body
       @parsed_body ||= JSON.parse(@body, symbolize_names: true)
     end
+
+    def ratelimit
+      return @ratelimit unless @ratelimit.nil?
+
+      limit = headers['X-RateLimit-Limit']
+      remaining = headers['X-RateLimit-Remaining']
+      reset = headers['X-RateLimit-Reset']
+
+      # Guard against possibility that one (or probably, all) of the
+      # needed headers were not returned.
+      if limit && remaining && reset
+        @ratelimit = Ratelimit.new(limit, remaining, reset)
+      end
+
+      @ratelimit
+    end
   end
 
   # A simple REST client.
