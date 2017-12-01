@@ -1,3 +1,4 @@
+require './test/test_helper'
 require 'ruby_http_client'
 require 'minitest/autorun'
 
