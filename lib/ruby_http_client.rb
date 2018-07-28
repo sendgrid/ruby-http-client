@@ -19,6 +19,7 @@ module SendGrid
     # Returns the body as a hash
     #
     def parsed_body
+      return @body if !@body
       @parsed_body ||= JSON.parse(@body, symbolize_names: true)
     end
   end
