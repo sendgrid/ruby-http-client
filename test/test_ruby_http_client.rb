@@ -32,14 +32,14 @@ class TestClient < Minitest::Test
         ')
     @host = 'http://localhost:4010'
     @version = 'v3'
-    @http_options = {open_timeout: 60, read_timeout: 60}
+    @http_options = { open_timeout: 60, read_timeout: 60 }
     @client = MockRequest.new(host: @host,
                               request_headers: @headers,
                               version: @version)
     @client_with_options = MockRequest.new(host: @host,
-                              request_headers: @headers,
-                              version: @version,
-                              http_options: @http_options)
+                                           request_headers: @headers,
+                                           version: @version,
+                                           http_options: @http_options)
   end
 
   def test_init
@@ -67,7 +67,7 @@ class TestClient < Minitest::Test
 
   def test_build_query_params
     url = ''
-    query_params = { 'limit' => 100, 'offset' => 0, 'categories' => ['category1', 'category2'] }
+    query_params = { 'limit' => 100, 'offset' => 0, 'categories' => %w[category1 category2] }
     url = @client.build_query_params(url, query_params)
     assert_equal('?limit=100&offset=0&categories=category1&categories=category2', url)
   end
@@ -97,8 +97,8 @@ class TestClient < Minitest::Test
     args = nil
     response = @client.build_request(name, args)
     assert_equal(200, response.status_code)
-    assert_equal({'message' => 'success'}, response.body)
-    assert_equal({'headers' => 'test'}, response.headers)
+    assert_equal({ 'message' => 'success' }, response.body)
+    assert_equal({ 'headers' => 'test' }, response.headers)
   end
 
   def test_build_request_post_empty_content_type
@@ -109,7 +109,7 @@ class TestClient < Minitest::Test
       request_headers: headers,
       version: 'v3'
     )
-    args = [{'request_body' => {"hogekey" => "hogevalue"}}]
+    args = [{ 'request_body' => { 'hogekey' => 'hogevalue' } }]
     client.build_request('post', args)
     assert_equal('application/json', client.request['Content-Type'])
     assert_equal('{"hogekey":"hogevalue"}', client.request.body)
@@ -149,10 +149,10 @@ class TestClient < Minitest::Test
     }
     client = MockRequest.new(
       host: 'https://localhost',
-      request_headers: headers,
+      request_headers: headers
     )
     name = 'post'
-    args = [{'request_body' => 'hogebody'}]
+    args = [{ 'request_body' => 'hogebody' }]
     client.build_request(name, args)
     assert_equal('multipart/form-data; boundary=xYzZY', client.request['Content-Type'])
     assert_equal('hogebody', client.request.body)
@@ -174,8 +174,8 @@ class TestClient < Minitest::Test
   def test_method_missing
     response = @client.get
     assert_equal(200, response.status_code)
-    assert_equal({'message' => 'success'}, response.body)
-    assert_equal({'headers' => 'test'}, response.headers)
+    assert_equal({ 'message' => 'success' }, response.body)
+    assert_equal({ 'headers' => 'test' }, response.headers)
   end
 
   def test_http_options
@@ -279,8 +279,8 @@ class TestClient < Minitest::Test
 
   # def test_use_cases_exists
   #   assert(File.file?('./USE_CASES.md'))
-  # end 
-  
+  # end
+
   def test_license_date_is_updated
     license_end_year = IO.read('LICENSE.txt').match(/Copyright \(c\) 2016-(\d{4}) SendGrid/)[1].to_i
     current_year = Time.new.year

@@ -1,5 +1,4 @@
-
-lib = File.expand_path('../lib', __FILE__)
+lib = File.expand_path('lib', __dir__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
 Gem::Specification.new do |spec|
@@ -16,6 +15,8 @@ Gem::Specification.new do |spec|
   spec.test_files    = spec.files.grep(/^(test|spec|features)/)
   spec.require_paths = ['lib']
 
+  spec.add_development_dependency 'minitest'
   spec.add_development_dependency 'rake', '~> 0'
+  spec.add_development_dependency 'rubocop'
   spec.add_development_dependency 'simplecov', '~> 0'
 end

@@ -4,11 +4,10 @@ env:
 
 language: ruby
 rvm:
-- 2.2
+  - 2.2
 
 before_install:
-- gem install minitest
-- gem install simplecov
+  - bundle install
 
 notifications:
   hipchat:
@@ -28,6 +27,7 @@ before_script:
 
 script:
   - rake
+  - rubocop
 
 after_script:
   - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
