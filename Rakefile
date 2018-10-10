@@ -1,4 +1,5 @@
 require 'rake/testtask'
+require 'github_changelog_generator/task'
 
 Rake::TestTask.new do |t|
   t.libs << 'test'
@@ -28,4 +29,11 @@ namespace :test do
     Rake::Task['rubocop'].invoke
     Rake::Task['minitest'].invoke
   end
+end
+
+desc 'Generate changelog'
+GitHubChangelogGenerator::RakeTask.new :changelog do |config|
+  config.user = 'sendgrid'
+  config.project = 'ruby-http-client'
+  config.unreleased = false
 end
