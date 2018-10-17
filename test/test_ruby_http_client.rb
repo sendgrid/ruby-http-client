@@ -12,6 +12,14 @@ class MockResponse
   end
 end
 
+class MockResponseWithRequestBody < MockResponse
+  attr_reader :request_body
+
+  def initialize(response)
+    @request_body = response['request_body']
+  end
+end
+
 class MockRequest < SendGrid::Client
   def make_request(_http, _request)
     response = {}
@@ -19,6 +27,17 @@ class MockRequest < SendGrid::Client
     response['body'] = { 'message' => 'success' }
     response['headers'] = { 'headers' => 'test' }
     MockResponse.new(response)
+  end
+end
+
+class MockRequestWithRequestBody < SendGrid::Client
+  def make_request(_http, request)
+    response = {}
+    response['code'] = 200
+    response['body'] = { 'message' => 'success' }
+    response['headers'] = { 'headers' => 'test' }
+    response['request_body'] = request.body
+    MockResponseWithRequestBody.new(response)
   end
 end
 
@@ -156,6 +175,48 @@ class TestClient < Minitest::Test
     client.build_request(name, args)
     assert_equal('multipart/form-data; boundary=xYzZY', client.request['Content-Type'])
     assert_equal('hogebody', client.request.body)
+  end
+
+  def test_json_body_encode
+    headers = {
+      'Content-Type' => 'application/json'
+    }
+    client = MockRequestWithRequestBody.new(
+      host: 'https://localhost',
+      request_headers: headers
+    )
+    name = 'post'
+    args = [{ 'request_body' => { 'this_is' => 'json' } }]
+    response = client.build_request(name, args)
+    assert_equal('{"this_is":"json"}', response.request_body)
+  end
+
+  def test_json_body_do_not_reencode
+    headers = {
+      'Content-Type' => 'application/json'
+    }
+    client = MockRequestWithRequestBody.new(
+      host: 'https://localhost',
+      request_headers: headers
+    )
+    name = 'post'
+    args = [{ 'request_body' => '{"this_is":"json"}' }]
+    response = client.build_request(name, args)
+    assert_equal('{"this_is":"json"}', response.request_body)
+  end
+
+  def test_json_body_do_not_reencode_simplejson
+    headers = {
+      'Content-Type' => 'application/json'
+    }
+    client = MockRequestWithRequestBody.new(
+      host: 'https://localhost',
+      request_headers: headers
+    )
+    name = 'post'
+    args = [{ 'request_body' => 'true' }]
+    response = client.build_request(name, args)
+    assert_equal('true', response.request_body)
   end
 
   def add_ssl

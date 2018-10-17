@@ -23,13 +23,13 @@ Metrics/ModuleLength:
   Enabled: false
 PerceivedComplexity:
   Enabled: false
-Style/SpaceBeforeFirstArg:
+Layout/SpaceBeforeFirstArg:
   Enabled: true
 Style/ClassAndModuleChildren:
   Enabled: false
-Style/EmptyLinesAroundBlockBody:
+Layout/EmptyLinesAroundBlockBody:
   Enabled: true
-Style/FileName:
+Naming/FileName:
   Enabled: true
 Style/RescueModifier:
   Enabled: true
@@ -39,7 +39,7 @@ Metrics/BlockLength:
   Enabled: false
 Style/NumericLiterals:
   Enabled: false
-Style/ExtraSpacing:
+Layout/ExtraSpacing:
   Enabled: true
   AllowForAlignment: false
   ForceEqualSignAlignment: false
