@@ -97,15 +97,19 @@ module SendGrid
     #                  Or just pass the version as part of the URL
     #                  (e.g. client._("/v3"))
     #   - +url_path+ -> A list of the url path segments
+    #   - +proxy_options+ -> A hash of proxy settings.
+    #                        (e.g. { host: '127.0.0.1', port: 8080 })
     #
-    def initialize(host: nil, request_headers: nil, version: nil, url_path: nil)
+    def initialize(host: nil, request_headers: nil, version: nil, url_path: nil, http_options: {}, proxy_options: {}) # rubocop:disable Metrics/ParameterLists
       @host = host
       @request_headers = request_headers || {}
       @version = version
       @url_path = url_path || []
-      @methods = %w(delete get patch post put)
+      @methods = %w[delete get patch post put]
       @query_params = nil
       @request_body = nil
+      @http_options = http_options
+      @proxy_options = proxy_options
     end
 
     # Update the headers for the request
@@ -200,19 +204,22 @@ module SendGrid
     def build_request(name, args)
       build_args(args) if args
       uri = build_url(query_params: @query_params)
-      @http = add_ssl(Net::HTTP.new(uri.host, uri.port))
+      @http = build_http(uri.host, uri.port)
       net_http = Kernel.const_get('Net::HTTP::' + name.to_s.capitalize)
       @request = build_request_headers(net_http.new(uri.request_uri))
-      if (@request_body &&
-          (!@request_headers.has_key?('Content-Type') ||
-           @request_headers['Content-Type'] == 'application/json')
-      )
+      if @request_body &&
+         (!@request_headers.key?('Content-Type') ||
+          @request_headers['Content-Type'] == 'application/json')
+
         @request.body = @request_body.to_json
         @request['Content-Type'] = 'application/json'
-      elsif !@request_body and (name.to_s == "post")
+      elsif !@request_body && (name.to_s == 'post')
         @request['Content-Type'] = ''
       else
         @request.body = @request_body
+      end
+      @http_options.each do |attribute, value|
+        @http.send("#{attribute}=", value)
       end
       make_request(@http, @request)
     end
@@ -229,6 +236,16 @@ module SendGrid
     def make_request(http, request)
       response = http.request(request)
       Response.new(response)
+    end
+
+    # Build HTTP request object
+    #
+    # * *Returns* :
+    #   - Request object
+    def build_http(host, port)
+      params = [host, port]
+      params += @proxy_options.values_at(:host, :port, :user, :pass) unless @proxy_options.empty?
+      add_ssl(Net::HTTP.new(*params))
     end
 
     # Allow for https calls
@@ -260,7 +277,8 @@ module SendGrid
       url_path = name ? @url_path.push(name) : @url_path
       @url_path = []
       Client.new(host: @host, request_headers: @request_headers,
-                 version: @version, url_path: url_path)
+                 version: @version, url_path: url_path,
+                 http_options: @http_options)
     end
 
     # Dynamically add segments to the url, then call a method.
@@ -271,6 +289,8 @@ module SendGrid
     # * *Returns* :
     #   - Client object or Response object
     #
+    # rubocop:disable Style/MethodMissingSuper
+    # rubocop:disable Style/MissingRespondToMissing
     def method_missing(name, *args, &_block)
       # Capture the version
       if name.to_s == 'version'
@@ -279,8 +299,11 @@ module SendGrid
       end
       # We have reached the end of the method chain, make the API call
       return build_request(name, args) if @methods.include?(name.to_s)
+
       # Add a segment to the URL
       _(name)
     end
+    # rubocop:enable Style/MethodMissingSuper
+    # rubocop:enable Style/MissingRespondToMissing
   end
 end

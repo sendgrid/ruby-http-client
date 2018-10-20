@@ -1,4 +1,5 @@
 bin
+vendor/*
 *.gem
 *.rbc
 /.config
