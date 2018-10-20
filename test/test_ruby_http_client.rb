@@ -21,7 +21,7 @@ class MockHttpResponse
     @headers = headers
   end
 
-  alias :to_hash :headers
+  alias to_hash headers
 end
 
 class MockRequest < SendGrid::Client
@@ -185,7 +185,7 @@ class TestClient < Minitest::Test
 
   def test_ratelimit_core
     expiry = Time.now.to_i + 1
-    rl  = SendGrid::Response::Ratelimit.new(500, 100, expiry)
+    rl = SendGrid::Response::Ratelimit.new(500, 100, expiry)
     rl2 = SendGrid::Response::Ratelimit.new(500, 0, expiry)
 
     refute rl.exceeded?
@@ -196,11 +196,10 @@ class TestClient < Minitest::Test
   end
 
   def test_response_ratelimit_parsing
-
     headers = {
       'X-RateLimit-Limit' => '500',
       'X-RateLimit-Remaining' => '300',
-      'X-RateLimit-Reset' => "#{Time.now.to_i}",
+      'X-RateLimit-Reset' => Time.now.to_i.to_s
     }
 
     body = ''

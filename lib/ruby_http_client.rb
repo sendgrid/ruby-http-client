@@ -42,16 +42,14 @@ module SendGrid
         now = Time.now.utc.to_i
         duration = (reset.to_i - now) + 1
 
-        if duration >= 0
-          sleep duration
-        end
+        sleep duration if duration >= 0
 
         yield if block_given?
 
         duration
       end
     end
-    
+
     # * *Args*    :
     #   - +response+ -> A NET::HTTP response object
     #
