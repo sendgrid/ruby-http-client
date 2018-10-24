@@ -1,17 +1,33 @@
+env:
+  global:
+    - CC_TEST_REPORTER_ID=$CC_TEST_REPORTER_ID
+
 language: ruby
 rvm:
 - 2.2
+
 before_install:
 - gem install minitest
+- gem install simplecov
+
 notifications:
   hipchat:
     rooms:
       secure: S0K355wxCRxwK2cOmbcVOaQitRtIEIq0OEEW7JZp8XtooupGwpmJSm22gqeo7GR6eidqlV8Tp6SUffpLE6SvS0hed3LDbJw7oWoXA7XvRp7gh/AKvLZ0e2uz/a1WPSYy0gNS3TJ72PcyoMS6rPCKR0FyDu8mQ2sW8CpZG07NDCmJPgO+dKfnpeuEmElZoh0AZxE6u1RjvUdSzxnmCVjve621ghtMaKInd0fnNPOM6tm9L0HKSbaLI/buphYhQ/DLpO+dLvt7W2yN+9BwaGqPv7X04Sn0UVAu9+EjSouLLBVNRIsdUfgRGeooStm8/Iw0c1brY4goyYJxGs0TiPkfPeWJcNmQ68YSZLDhUGoMZWCZwGq0Lm/oThJX8K777r3qt0Td4iAXNG+bVN+1KZtZRra6B/qBKBcpTTs1p4WRfIUY9D6udwyWZMcGEOFecsyt/MRlkjdmu+zSvZsadvhvQCL+m+aUmTtlUbswXu46g5NxQrHS9UKzzPkk/3mUrO1r4HLhhuuNtn3LRMbx9WVMdidMiFaAxG99VFC0Gon//FMvpTShNrRRuNSW7EJ0V8gwpx69SticfxC88pfka/MEeY9KoZc3MJdILbpgLK5oPuFMih2F/emJP1muWnk8mjaEHqHPqnSuKRr4oqO1xbh+r2ggKW58akCe08a4TihD4rg=
     template:
-    - '<a href="https://travis-ci.org/%{repository}/builds/%{build_id}">%{repository}
-      Build %{build_number}</a> on branch <i>%{branch}</i> by %{author}: <strong>%{message}</strong>
-      <a href="https://github.com/sendgrid/%{repository}/commits/%{commit}">View on GitHub</a>'
+      - '<a href="https://travis-ci.org/%{repository}/builds/%{build_id}">%{repository}
+	Build %{build_number}</a> on branch <i>%{branch}</i> by %{author}: <strong>%{message}</strong>
+	<a href="https://github.com/sendgrid/%{repository}/commits/%{commit}">View on GitHub</a>'
     format: html
     notify: false
+
+before_script:
+  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+  - chmod +x ./cc-test-reporter
+  - ./cc-test-reporter before-build
+
 script:
-    - rake
+  - rake
+
+after_script:
+  - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
