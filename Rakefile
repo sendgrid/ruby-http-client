@@ -28,4 +28,10 @@ namespace :test do
     Rake::Task['rubocop'].invoke
     Rake::Task['minitest'].invoke
   end
+  desc 'Run test coverage analysis'
+  task :coverage do
+    require 'simplecov'
+    SimpleCov.start
+    Rake::Task[:test].invoke
+  end
 end

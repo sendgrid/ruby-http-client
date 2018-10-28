@@ -125,6 +125,14 @@ To run the tests:
 rake
 ```
 
+To run test coverage analysis locally (only in CI by default):
+
+```bash
+rake test:coverage
+# After "Coverage report generated" success message, view the coverage report:
+open ./coverage/index.html
+```
+
 <a name="style-guidelines-and-naming-conventions"></a>
 ## Style Guidelines & Naming Conventions
 
