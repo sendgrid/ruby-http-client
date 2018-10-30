@@ -35,7 +35,7 @@ We label our issues according to their difficulty level. You can find easy ones 
    git pull upstream <dev-branch>
    ```
 
-3. Create a new topic branch (off the main project development branch) to
+3. Create a new topic branch (of the main project development branch) to
    contain your feature, change, or fix:
 
    ```bash
