@@ -22,7 +22,9 @@ All updates to this library is documented in our [CHANGELOG](https://github.com/
 - [Roadmap](#roadmap)
 - [How to Contribute](#contribute)
 - [About](#about)
+- [Career](https://sendgrid.com/careers/role/1421152/?gh_jid=1421152)
 - [License](#license)
+
 
 <a name="installation"></a>
 # Installation
@@ -109,6 +111,8 @@ Quick links:
 ruby-http-client is guided and supported by the SendGrid [Developer Experience Team](mailto:dx@sendgrid.com).
 
 ruby-http-client is maintained and funded by SendGrid, Inc. The names and logos for ruby-http-client are trademarks of SendGrid, Inc.
+
+<a name="career"></a>
 
 # License
 [The MIT License (MIT)](LICENSE.txt)
