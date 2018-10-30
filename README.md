@@ -102,6 +102,7 @@ Quick links:
 - [Bug Reports](https://github.com/sendgrid/ruby-http-client/blob/master/CONTRIBUTING.md#submit-a-bug-report)
 - [Sign the CLA to Create a Pull Request](https://github.com/sendgrid/ruby-http-client/blob/master/CONTRIBUTING.md)
 - [Improvements to the Codebase](https://github.com/sendgrid/ruby-http-client/blob/master/CONTRIBUTING.md#improvements-to-the-codebase)
+- [Review Pull Requests](https://github.com/sendgrid/ruby-http-client/blob/master/CONTRIBUTING.md#code-reviews)
 
 <a name="about"></a>
 # About
