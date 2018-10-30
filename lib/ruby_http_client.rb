@@ -149,7 +149,7 @@ module SendGrid
          (!@request_headers.key?('Content-Type') ||
           @request_headers['Content-Type'] == 'application/json')
 
-        @request.body = @request_body.to_json
+        @request.body = (@request_body.class == Hash) ? @request_body.to_json : @request_body
         @request['Content-Type'] = 'application/json'
       elsif !@request_body && (name.to_s == 'post')
         @request['Content-Type'] = ''
