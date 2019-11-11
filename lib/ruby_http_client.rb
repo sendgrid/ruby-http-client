@@ -17,7 +17,6 @@ module SendGrid
       def initialize(limit, remaining, reset)
         @limit = limit.to_i
         @remaining = remaining.to_i
-        @reset = reset.to_i
         @reset = Time.at reset.to_i
       end
 
