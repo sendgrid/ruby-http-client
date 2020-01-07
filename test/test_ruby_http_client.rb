@@ -278,7 +278,7 @@ class TestClient < Minitest::Test
   end
 
   def test_license_date_is_updated
-    license_end_year = IO.read('LICENSE.txt').match(/Copyright \(c\) 2016-(\d{4}) SendGrid/)[1].to_i
+    license_end_year = IO.read('LICENSE.txt').match(/Copyright \(c\) 2016-(\d{4}) Twilio SendGrid/)[1].to_i
     current_year = Time.new.year
     assert_equal(current_year, license_end_year)
   end

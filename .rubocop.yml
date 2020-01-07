@@ -43,3 +43,5 @@ Style/ExtraSpacing:
   Enabled: true
   AllowForAlignment: false
   ForceEqualSignAlignment: false
+Style/FrozenStringLiteralComment:
+  Enabled: false
