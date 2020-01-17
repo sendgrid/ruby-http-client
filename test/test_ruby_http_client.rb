@@ -254,7 +254,7 @@ class TestClient < Minitest::Test
   end
 
   def test_issue_template_exists
-    assert(File.file?('./.github/ISSUE_TEMPLATE'))
+    assert(File.file?('./ISSUE_TEMPLATE.md'))
   end
 
   def test_license_exists
@@ -262,7 +262,7 @@ class TestClient < Minitest::Test
   end
 
   def test_pull_request_template_exists
-    assert(File.file?('./.github/PULL_REQUEST_TEMPLATE'))
+    assert(File.file?('./PULL_REQUEST_TEMPLATE.md'))
   end
 
   def test_readme_exists
@@ -278,7 +278,7 @@ class TestClient < Minitest::Test
   end
 
   def test_license_date_is_updated
-    license_end_year = IO.read('LICENSE.txt').match(/Copyright \(c\) 2016-(\d{4}) Twilio SendGrid/)[1].to_i
+    license_end_year = IO.read('LICENSE.md').match(/Copyright \(c\) (\d{4}) Twilio SendGrid/)[1].to_i
     current_year = Time.new.year
     assert_equal(current_year, license_end_year)
   end
