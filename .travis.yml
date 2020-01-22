@@ -28,3 +28,4 @@ deploy:
   on:
     tags: true
     rvm: '2.4'
+    skip_cleanup: true
