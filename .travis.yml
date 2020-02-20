@@ -24,7 +24,7 @@ deploy:
   provider: rubygems
   api_key:
     secure: ubaCqrwnHN4TzLhFyM7/2WPicNya2FSeKbZiG9zqGGTklTNi3T/pP1BUDdVQGNSOsvBl/s20P6M+aKL6KTH9t4JpS4laFgI3iwBWyg4Q4fcchDMOrtMaChR7FvIfvOOFcCQYvvMB/U+Mr9GSnKkVHmcu2JQgZM/kBSst3FymAQeRa8+64IKg2s/DjPejT4aTvyuqJ75xN+pkCbv36KHic1jrKZgpSdWZ7UaOZfBJ7xdReCXYXignKFJs1240O1yfIyikFrgTs75Ch7/OmI792CaFIKIvODg97wYlCnu0FYCOxNfZw2JVwp+oYqXRkI5l2ljXWFvjPxdckGSP7rM4lL9GxSgVqgqBd1orXyab2Ad+POlbx97wEmoYLbIF4BHGoe7nXV7BXquQDWIm2o5vx5RxenTnWMOZNLbRBVUAdRbxrxW8iQhTRs+jjeJu3Cj9alWd7UPB/t2v8/c9MpOCNdH+QyAJW6dvZrKTyy75CofGAYbzezp2DA91IXAELiFQaPhCXXzkOTVHCh9+mBYG7b0t1iXQoN+MMcyQ3q89coZDxI1l77keNPbj8GcQQ35fRxRhmgsID+mQfuYXgkx8aTs5MYwJWy+sxyOrEBMAyehDhdk0JZjJdYhgsh+zIqfpy9meZIxNxNQ7+s1EGoFW4RggKark2t9Y8NML7hX+xIc=
-  gem: sendgrid-ruby
+  gem: ruby_http_client
   on:
     tags: true
     rvm: '2.4'
