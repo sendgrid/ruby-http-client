@@ -74,9 +74,7 @@ module SendGrid
 
       # Guard against possibility that one (or probably, all) of the
       # needed headers were not returned.
-      if limit && remaining && reset
-        @ratelimit = Ratelimit.new(limit, remaining, reset)
-      end
+      @ratelimit = Ratelimit.new(limit, remaining, reset) if limit && remaining && reset
 
       @ratelimit
     end
