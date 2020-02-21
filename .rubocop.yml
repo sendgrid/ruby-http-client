@@ -43,3 +43,5 @@ Style/StringLiterals:
   Enabled: true
 Style/NumericLiterals:
   Enabled: false
+Style/FrozenStringLiteralComment:
+  Enabled: false
