@@ -3,6 +3,12 @@ All notable changes to this project will be documented in this file.
 
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+[2020-02-19] Version 3.4.3
+--------------------------
+**Library - Fix**
+- [PR #95](https://github.com/sendgrid/ruby-http-client/pull/95): JSON body reencoding and Rubocop configuration. Thanks to [@guillemm](https://github.com/guillemm)!
+
+
 [2020-01-22] Version 3.4.2
 --------------------------
 **Library - Fix**
