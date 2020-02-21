@@ -233,7 +233,7 @@ module SendGrid
       uri = build_url(query_params: @query_params)
       net_http = Kernel.const_get('Net::HTTP::' + http_method.to_s.capitalize)
 
-      @http = add_ssl(Net::HTTP.new(uri.host, uri.port))
+      @http = build_http(uri.host, uri.port)
       @request = build_request_headers(net_http.new(uri.request_uri))
     end
 
