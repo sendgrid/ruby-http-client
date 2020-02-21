@@ -3,7 +3,7 @@
 [![BuildStatus](https://travis-ci.org/sendgrid/ruby-http-client.svg?branch=master)](https://travis-ci.org/sendgrid/ruby-http-client)
 [![Email Notifications Badge](https://dx.sendgrid.com/badge/ruby)](https://dx.sendgrid.com/newsletter/ruby)
 [![Gem Version](https://badge.fury.io/rb/sendgrid-ruby.svg)](https://badge.fury.io/rb/sendgrid-ruby)
-[![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE.txt)
+[![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE.md)
 [![Twitter Follow](https://img.shields.io/twitter/follow/sendgrid.svg?style=social&label=Follow)](https://twitter.com/sendgrid)
 [![GitHub contributors](https://img.shields.io/github/contributors/sendgrid/ruby-http-client.svg)](https://github.com/sendgrid/ruby-http-client/graphs/contributors)
 
@@ -12,6 +12,7 @@
 If you are looking for the SendGrid API client library, please see [this repo](https://github.com/sendgrid/sendgrid-ruby).
 
 # Announcements
+**NEW:** If you're a software engineer who is passionate about #DeveloperExperience and/or #OpenSource, [this is an incredible opportunity to join our #DX team](https://sendgrid.com/careers/role/1421152/?gh_jid=1421152) as a Developer Experience Engineer and work with [@thinkingserious](https://github.com/thinkingserious) and [@aroach](https://github.com/aroach)! Tell your friends :)
 
 All updates to this library are documented in our [CHANGELOG](https://github.com/sendgrid/ruby-http-client/blob/master/CHANGELOG.md).
 
@@ -111,4 +112,4 @@ ruby-http-client is guided and supported by the SendGrid [Developer Experience T
 ruby-http-client is maintained and funded by SendGrid, Inc. The names and logos for ruby-http-client are trademarks of SendGrid, Inc.
 
 # License
-[The MIT License (MIT)](LICENSE.txt)
+[The MIT License (MIT)](LICENSE.md)

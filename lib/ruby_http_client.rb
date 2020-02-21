@@ -149,7 +149,12 @@ module SendGrid
          (!@request_headers.key?('Content-Type') ||
           @request_headers['Content-Type'] == 'application/json')
 
-        @request.body = @request_body.to_json
+        # If body is a hash, encode it; else leave it alone
+        @request.body = if @request_body.class == Hash
+                          @request_body.to_json
+                        else
+                          @request_body
+                        end
         @request['Content-Type'] = 'application/json'
       elsif !@request_body && (name.to_s == 'post')
         @request['Content-Type'] = ''
@@ -212,8 +217,7 @@ module SendGrid
     #   - Client object
     #
     def _(name = nil)
-      url_path = name ? @url_path.push(name) : @url_path
-      @url_path = []
+      url_path = name ? @url_path + [name] : @url_path
       Client.new(host: @host, request_headers: @request_headers,
                  version: @version, url_path: url_path,
                  http_options: @http_options)
