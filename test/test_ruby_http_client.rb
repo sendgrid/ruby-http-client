@@ -22,7 +22,7 @@ class MockHttpResponse
   end
 
   alias to_hash headers
-end  
+end
 
 class MockResponseWithRequestBody < MockResponse
   attr_reader :request_body
