@@ -200,24 +200,10 @@ module SendGrid
     #
     def build_request(name, args)
       build_args(args) if args
-      uri = build_url(query_params: @query_params)
-      @http = build_http(uri.host, uri.port)
-      net_http = Kernel.const_get('Net::HTTP::' + name.to_s.capitalize)
-      @request = build_request_headers(net_http.new(uri.request_uri))
-      if @request_body &&
-         (!@request_headers.key?('Content-Type') ||
-          @request_headers['Content-Type'] == 'application/json')
-
-        @request.body = @request_body.to_json
-        @request['Content-Type'] = 'application/json'
-      elsif !@request_body && (name.to_s == 'post')
-        @request['Content-Type'] = ''
-      else
-        @request.body = @request_body
-      end
-      @http_options.each do |attribute, value|
-        @http.send("#{attribute}=", value)
-      end
+      # build the request & http object
+      build_http_request(name)
+      # set the content type & request body
+      update_content_type(name)
       make_request(@http, @request)
     end
 
@@ -271,8 +257,7 @@ module SendGrid
     #   - Client object
     #
     def _(name = nil)
-      url_path = name ? @url_path.push(name) : @url_path
-      @url_path = []
+      url_path = name ? @url_path + [name] : @url_path
       Client.new(host: @host, request_headers: @request_headers,
                  version: @version, url_path: url_path,
                  http_options: @http_options)
@@ -299,6 +284,37 @@ module SendGrid
 
       # Add a segment to the URL
       _(name)
+    end
+
+    private
+
+    def build_http_request(http_method)
+      uri = build_url(query_params: @query_params)
+      net_http = Kernel.const_get('Net::HTTP::' + http_method.to_s.capitalize)
+
+      @http = build_http(uri.host, uri.port)
+      @request = build_request_headers(net_http.new(uri.request_uri))
+    end
+
+    def update_content_type(http_method)
+      if @request_body && content_type_json?
+        # If body is a hash, encode it; else leave it alone
+        @request.body = if @request_body.class == Hash
+                          @request_body.to_json
+                        else
+                          @request_body
+                        end
+        @request['Content-Type'] = 'application/json'
+      elsif !@request_body && http_method.to_s == 'post'
+        @request['Content-Type'] = ''
+      else
+        @request.body = @request_body
+      end
+    end
+
+    def content_type_json?
+      !@request_headers.key?('Content-Type') ||
+        @request_headers['Content-Type'] == 'application/json'
     end
     # rubocop:enable Style/MethodMissingSuper
     # rubocop:enable Style/MissingRespondToMissing

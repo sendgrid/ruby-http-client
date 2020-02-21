@@ -22,6 +22,14 @@ class MockHttpResponse
   end
 
   alias to_hash headers
+end  
+
+class MockResponseWithRequestBody < MockResponse
+  attr_reader :request_body
+
+  def initialize(response)
+    @request_body = response['request_body']
+  end
 end
 
 class MockRequest < SendGrid::Client
@@ -31,6 +39,17 @@ class MockRequest < SendGrid::Client
     response['body'] = { 'message' => 'success' }
     response['headers'] = { 'headers' => 'test' }
     MockResponse.new(response)
+  end
+end
+
+class MockRequestWithRequestBody < SendGrid::Client
+  def make_request(_http, request)
+    response = {}
+    response['code'] = 200
+    response['body'] = { 'message' => 'success' }
+    response['headers'] = { 'headers' => 'test' }
+    response['request_body'] = request.body
+    MockResponseWithRequestBody.new(response)
   end
 end
 
@@ -170,6 +189,48 @@ class TestClient < Minitest::Test
     assert_equal('hogebody', client.request.body)
   end
 
+  def test_json_body_encode
+    headers = {
+      'Content-Type' => 'application/json'
+    }
+    client = MockRequestWithRequestBody.new(
+      host: 'https://localhost',
+      request_headers: headers
+    )
+    name = 'post'
+    args = [{ 'request_body' => { 'this_is' => 'json' } }]
+    response = client.build_request(name, args)
+    assert_equal('{"this_is":"json"}', response.request_body)
+  end
+
+  def test_json_body_do_not_reencode
+    headers = {
+      'Content-Type' => 'application/json'
+    }
+    client = MockRequestWithRequestBody.new(
+      host: 'https://localhost',
+      request_headers: headers
+    )
+    name = 'post'
+    args = [{ 'request_body' => '{"this_is":"json"}' }]
+    response = client.build_request(name, args)
+    assert_equal('{"this_is":"json"}', response.request_body)
+  end
+
+  def test_json_body_do_not_reencode_simplejson
+    headers = {
+      'Content-Type' => 'application/json'
+    }
+    client = MockRequestWithRequestBody.new(
+      host: 'https://localhost',
+      request_headers: headers
+    )
+    name = 'post'
+    args = [{ 'request_body' => 'true' }]
+    response = client.build_request(name, args)
+    assert_equal('true', response.request_body)
+  end
+
   def add_ssl
     uri = URI.parse('https://localhost:4010')
     http = Net::HTTP.new(uri.host, uri.port)
@@ -294,7 +355,7 @@ class TestClient < Minitest::Test
   end
 
   def test_issue_template_exists
-    assert(File.file?('./.github/ISSUE_TEMPLATE'))
+    assert(File.file?('./ISSUE_TEMPLATE.md'))
   end
 
   def test_license_exists
@@ -302,7 +363,7 @@ class TestClient < Minitest::Test
   end
 
   def test_pull_request_template_exists
-    assert(File.file?('./.github/PULL_REQUEST_TEMPLATE'))
+    assert(File.file?('./PULL_REQUEST_TEMPLATE.md'))
   end
 
   def test_readme_exists
@@ -318,7 +379,7 @@ class TestClient < Minitest::Test
   end
 
   def test_license_date_is_updated
-    license_end_year = IO.read('LICENSE.txt').match(/Copyright \(c\) 2016-(\d{4}) SendGrid/)[1].to_i
+    license_end_year = IO.read('LICENSE.md').match(/Copyright \(C\) (\d{4}), Twilio SendGrid/)[1].to_i
     current_year = Time.new.year
     assert_equal(current_year, license_end_year)
   end
