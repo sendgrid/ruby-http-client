@@ -189,7 +189,7 @@ class TestClient < Minitest::Test
     assert_equal('hogebody', client.request.body)
   end
 
-  def test_json_body_encode
+  def test_json_body_encode_hash
     headers = {
       'Content-Type' => 'application/json'
     }
@@ -201,6 +201,20 @@ class TestClient < Minitest::Test
     args = [{ 'request_body' => { 'this_is' => 'json' } }]
     response = client.build_request(name, args)
     assert_equal('{"this_is":"json"}', response.request_body)
+  end
+
+  def test_json_body_encode_array
+    headers = {
+      'Content-Type' => 'application/json'
+    }
+    client = MockRequestWithRequestBody.new(
+      host: 'https://localhost',
+      request_headers: headers
+    )
+    name = 'post'
+    args = [{ 'request_body' => [{ 'this_is' => 'json' }] }]
+    response = client.build_request(name, args)
+    assert_equal('[{"this_is":"json"}]', response.request_body)
   end
 
   def test_json_body_do_not_reencode

@@ -53,6 +53,7 @@ module SendGrid
     #   - +response+ -> A NET::HTTP response object
     #
     attr_reader :status_code, :body, :headers
+
     def initialize(response)
       @status_code = response.code
       @body = response.body
@@ -265,7 +266,7 @@ module SendGrid
     # (e.g. client.name.name.get())
     #
     # * *Args*    :
-    #   - The args are autmoatically passed in
+    #   - The args are automatically passed in
     # * *Returns* :
     #   - Client object or Response object
     #
@@ -296,8 +297,8 @@ module SendGrid
 
     def update_content_type(http_method)
       if @request_body && content_type_json?
-        # If body is a hash, encode it; else leave it alone
-        @request.body = if @request_body.class == Hash
+        # If body is a hash or array, encode it; else leave it alone
+        @request.body = if [Hash, Array].include?(@request_body.class)
                           @request_body.to_json
                         else
                           @request_body
