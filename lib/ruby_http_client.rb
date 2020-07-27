@@ -6,10 +6,54 @@ module SendGrid
 
   # Holds the response from an API call.
   class Response
+    # Provide useful functionality around API rate limiting.
+    class Ratelimit
+      attr_reader :limit, :remaining, :reset
+
+      # * *Args*    :
+      #   - +limit+ -> The total number of requests allowed within a rate limit window
+      #   - +remaining+ -> The number of requests that have been processed within this current rate limit window
+      #   - +reset+ -> The time (in seconds since Unix Epoch) when the rate limit will reset
+      def initialize(limit, remaining, reset)
+        @limit = limit.to_i
+        @remaining = remaining.to_i
+        @reset = Time.at reset.to_i
+      end
+
+      def exceeded?
+        remaining <= 0
+      end
+
+      # * *Returns* :
+      #   - The number of requests that have been used out of this
+      #     rate limit window
+      def used
+        limit - remaining
+      end
+
+      # Sleep until the reset time arrives. If given a block, it will
+      # be called after sleeping is finished.
+      #
+      # * *Returns* :
+      #   - The amount of time (in seconds) that the rate limit slept
+      #     for.
+      def wait!
+        now = Time.now.utc.to_i
+        duration = (reset.to_i - now) + 1
+
+        sleep duration if duration >= 0
+
+        yield if block_given?
+
+        duration
+      end
+    end
+
     # * *Args*    :
     #   - +response+ -> A NET::HTTP response object
     #
     attr_reader :status_code, :body, :headers
+
     def initialize(response)
       @status_code = response.code
       @body = response.body
@@ -20,6 +64,20 @@ module SendGrid
     #
     def parsed_body
       @parsed_body ||= JSON.parse(@body, symbolize_names: true)
+    end
+
+    def ratelimit
+      return @ratelimit unless @ratelimit.nil?
+
+      limit = headers['X-RateLimit-Limit']
+      remaining = headers['X-RateLimit-Remaining']
+      reset = headers['X-RateLimit-Reset']
+
+      # Guard against possibility that one (or probably, all) of the
+      # needed headers were not returned.
+      @ratelimit = Ratelimit.new(limit, remaining, reset) if limit && remaining && reset
+
+      @ratelimit
     end
   end
 
@@ -141,24 +199,10 @@ module SendGrid
     #
     def build_request(name, args)
       build_args(args) if args
-      uri = build_url(query_params: @query_params)
-      @http = build_http(uri.host, uri.port)
-      net_http = Kernel.const_get('Net::HTTP::' + name.to_s.capitalize)
-      @request = build_request_headers(net_http.new(uri.request_uri))
-      if @request_body &&
-         (!@request_headers.key?('Content-Type') ||
-          @request_headers['Content-Type'] == 'application/json')
-
-        @request.body = @request_body.to_json
-        @request['Content-Type'] = 'application/json'
-      elsif !@request_body && (name.to_s == 'post')
-        @request['Content-Type'] = ''
-      else
-        @request.body = @request_body
-      end
-      @http_options.each do |attribute, value|
-        @http.send("#{attribute}=", value)
-      end
+      # build the request & http object
+      build_http_request(name)
+      # set the content type & request body
+      update_content_type(name)
       make_request(@http, @request)
     end
 
@@ -212,8 +256,7 @@ module SendGrid
     #   - Client object
     #
     def _(name = nil)
-      url_path = name ? @url_path.push(name) : @url_path
-      @url_path = []
+      url_path = name ? @url_path + [name] : @url_path
       Client.new(host: @host, request_headers: @request_headers,
                  version: @version, url_path: url_path,
                  http_options: @http_options)
@@ -223,7 +266,7 @@ module SendGrid
     # (e.g. client.name.name.get())
     #
     # * *Args*    :
-    #   - The args are autmoatically passed in
+    #   - The args are automatically passed in
     # * *Returns* :
     #   - Client object or Response object
     #
@@ -240,6 +283,37 @@ module SendGrid
 
       # Add a segment to the URL
       _(name)
+    end
+
+    private
+
+    def build_http_request(http_method)
+      uri = build_url(query_params: @query_params)
+      net_http = Kernel.const_get('Net::HTTP::' + http_method.to_s.capitalize)
+
+      @http = build_http(uri.host, uri.port)
+      @request = build_request_headers(net_http.new(uri.request_uri))
+    end
+
+    def update_content_type(http_method)
+      if @request_body && content_type_json?
+        # If body is a hash or array, encode it; else leave it alone
+        @request.body = if [Hash, Array].include?(@request_body.class)
+                          @request_body.to_json
+                        else
+                          @request_body
+                        end
+        @request['Content-Type'] = 'application/json'
+      elsif !@request_body && http_method.to_s == 'post'
+        @request['Content-Type'] = ''
+      else
+        @request.body = @request_body
+      end
+    end
+
+    def content_type_json?
+      !@request_headers.key?('Content-Type') ||
+        @request_headers['Content-Type'] == 'application/json'
     end
     # rubocop:enable Style/MethodMissingSuper
     # rubocop:enable Style/MissingRespondToMissing

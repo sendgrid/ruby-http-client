@@ -2,8 +2,8 @@
 
 [![BuildStatus](https://travis-ci.org/sendgrid/ruby-http-client.svg?branch=master)](https://travis-ci.org/sendgrid/ruby-http-client)
 [![Email Notifications Badge](https://dx.sendgrid.com/badge/ruby)](https://dx.sendgrid.com/newsletter/ruby)
-[![Gem Version](https://badge.fury.io/rb/sendgrid-ruby.svg)](https://badge.fury.io/rb/sendgrid-ruby)
-[![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE.txt)
+[![Gem Version](https://badge.fury.io/rb/ruby_http_client.svg)](https://badge.fury.io/rb/ruby_http_client)
+[![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE.md)
 [![Twitter Follow](https://img.shields.io/twitter/follow/sendgrid.svg?style=social&label=Follow)](https://twitter.com/sendgrid)
 [![GitHub contributors](https://img.shields.io/github/contributors/sendgrid/ruby-http-client.svg)](https://github.com/sendgrid/ruby-http-client/graphs/contributors)
 
@@ -13,7 +13,7 @@ If you are looking for the SendGrid API client library, please see [this repo](h
 
 # Announcements
 
-All updates to this library is documented in our [CHANGELOG](https://github.com/sendgrid/ruby-http-client/blob/master/CHANGELOG.md).
+All updates to this library are documented in our [CHANGELOG](https://github.com/sendgrid/ruby-http-client/blob/master/CHANGELOG.md).
 
 # Table of Contents
 - [Installation](#installation)
@@ -29,7 +29,7 @@ All updates to this library is documented in our [CHANGELOG](https://github.com/
 
 ## Prerequisites
 
-- Ruby version 2.2+
+- Ruby version >= 2.4
 
 ## Setup Environment Variables
 
@@ -56,7 +56,7 @@ gem install ruby_http_client
 
 ```ruby
 require 'ruby_http_client'
-global_headers = {'Authorization' => 'Basic XXXXXXX' }
+global_headers = {'Authorization' => 'Bearer XXXXXXX' }
 client = SendGrid::Client.new(host: 'base_url', request_headers: global_headers)
 client.your.api._(param).call.get
 puts response.status_code
@@ -68,7 +68,7 @@ puts response.headers
 
 ```ruby
 require 'ruby_http_client'
-global_headers = {'Authorization' => 'Basic XXXXXXX' }
+global_headers = {'Authorization' => 'Bearer XXXXXXX' }
 client = SendGrid::Client.new(host: 'base_url', request_headers: global_headers)
 query_params = { 'hello' => 0, 'world' => 1 }
 request_headers = { 'X-Test' => 'test' }
@@ -100,15 +100,17 @@ Quick links:
 
 - [Feature Request](https://github.com/sendgrid/ruby-http-client/blob/master/CONTRIBUTING.md#feature-request)
 - [Bug Reports](https://github.com/sendgrid/ruby-http-client/blob/master/CONTRIBUTING.md#submit-a-bug-report)
-- [Sign the CLA to Create a Pull Request](https://github.com/sendgrid/ruby-http-client/blob/master/CONTRIBUTING.md)
 - [Improvements to the Codebase](https://github.com/sendgrid/ruby-http-client/blob/master/CONTRIBUTING.md#improvements-to-the-codebase)
+- [Review Pull Requests](https://github.com/sendgrid/ruby-http-client/blob/master/CONTRIBUTING.md#code-reviews)
 
 <a name="about"></a>
 # About
 
-ruby-http-client is guided and supported by the SendGrid [Developer Experience Team](mailto:dx@sendgrid.com).
+ruby-http-client is maintained and funded by Twilio SendGrid, Inc. The names and logos for ruby-http-client are trademarks of Twilio SendGrid, Inc.
 
-ruby-http-client is maintained and funded by SendGrid, Inc. The names and logos for ruby-http-client are trademarks of SendGrid, Inc.
+If you need help installing or using the library, please check the [Twilio SendGrid Support Help Center](https://support.sendgrid.com).
+
+If you've instead found a bug in the library or would like new features added, go ahead and open issues or pull requests against this repo!
 
 # License
-[The MIT License (MIT)](LICENSE.txt)
+[The MIT License (MIT)](LICENSE.md)

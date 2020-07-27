@@ -88,3 +88,12 @@ puts response.headers
 response = client.api_keys._(api_key_id).delete
 puts response.status_code
 puts response.headers
+
+# Rate limit information
+response = client.version('v3').api_keys._(api_key_id).get
+puts response.ratelimit.limit
+puts response.ratelimit.remaining
+puts response.ratelimit.reset
+puts response.ratelimit.exceeded?
+# Sleep the current thread until the reset has happened
+response.ratelimit.wait!
