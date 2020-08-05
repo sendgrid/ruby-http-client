@@ -55,7 +55,7 @@ We label our issues according to their difficulty level. You can find easy ones 
 5. Locally merge (or rebase) the upstream development branch into your topic branch:
 
    ```bash
-   git pull [--rebase] upstream master
+   git pull [--rebase] upstream main
    ```
 
 6. Push your topic branch up to your fork:
@@ -65,4 +65,4 @@ We label our issues according to their difficulty level. You can find easy ones 
    ```
 
 7. [Open a Pull Request](https://help.github.com/articles/using-pull-requests/)
-    with a clear title and description against the `master` branch. All tests must be passing before we will review the PR.
+    with a clear title and description against the `main` branch. All tests must be passing before we will review the PR.

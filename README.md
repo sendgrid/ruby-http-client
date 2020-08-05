@@ -1,6 +1,6 @@
 ![SendGrid Logo](https://uiux.s3.amazonaws.com/2016-logos/email-logo%402x.png)
 
-[![BuildStatus](https://travis-ci.org/sendgrid/ruby-http-client.svg?branch=master)](https://travis-ci.org/sendgrid/ruby-http-client)
+[![BuildStatus](https://travis-ci.org/sendgrid/ruby-http-client.svg?branch=main)](https://travis-ci.org/sendgrid/ruby-http-client)
 [![Email Notifications Badge](https://dx.sendgrid.com/badge/ruby)](https://dx.sendgrid.com/newsletter/ruby)
 [![Gem Version](https://badge.fury.io/rb/ruby_http_client.svg)](https://badge.fury.io/rb/ruby_http_client)
 [![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE.md)
@@ -14,7 +14,7 @@ If you are looking for the SendGrid API client library, please see [this repo](h
 # Announcements
 **The default branch name for this repository has been changed to `main` as of 07/27/2020.**
 
-All updates to this library are documented in our [CHANGELOG](https://github.com/sendgrid/ruby-http-client/blob/master/CHANGELOG.md).
+All updates to this library are documented in our [CHANGELOG](https://github.com/sendgrid/ruby-http-client/blob/HEAD/CHANGELOG.md).
 
 # Table of Contents
 - [Installation](#installation)
@@ -85,7 +85,7 @@ puts response.headers
 <a name="usage"></a>
 # Usage
 
-- [Example Code](https://github.com/sendgrid/ruby-http-client/tree/master/examples)
+- [Example Code](https://github.com/sendgrid/ruby-http-client/tree/HEAD/examples)
 
 <a name="roadmap"></a>
 # Roadmap
@@ -95,14 +95,14 @@ If you are interested in the future direction of this project, please take a loo
 <a name="contribute"></a>
 # How to Contribute
 
-We encourage contribution to our libraries, please see our [CONTRIBUTING](https://github.com/sendgrid/ruby-http-client/blob/master/CONTRIBUTING.md) guide for details.
+We encourage contribution to our libraries, please see our [CONTRIBUTING](https://github.com/sendgrid/ruby-http-client/blob/HEAD/CONTRIBUTING.md) guide for details.
 
 Quick links:
 
-- [Feature Request](https://github.com/sendgrid/ruby-http-client/blob/master/CONTRIBUTING.md#feature-request)
-- [Bug Reports](https://github.com/sendgrid/ruby-http-client/blob/master/CONTRIBUTING.md#submit-a-bug-report)
-- [Improvements to the Codebase](https://github.com/sendgrid/ruby-http-client/blob/master/CONTRIBUTING.md#improvements-to-the-codebase)
-- [Review Pull Requests](https://github.com/sendgrid/ruby-http-client/blob/master/CONTRIBUTING.md#code-reviews)
+- [Feature Request](https://github.com/sendgrid/ruby-http-client/blob/HEAD/CONTRIBUTING.md#feature-request)
+- [Bug Reports](https://github.com/sendgrid/ruby-http-client/blob/HEAD/CONTRIBUTING.md#submit-a-bug-report)
+- [Improvements to the Codebase](https://github.com/sendgrid/ruby-http-client/blob/HEAD/CONTRIBUTING.md#improvements-to-the-codebase)
+- [Review Pull Requests](https://github.com/sendgrid/ruby-http-client/blob/HEAD/CONTRIBUTING.md#code-reviews)
 
 <a name="about"></a>
 # About

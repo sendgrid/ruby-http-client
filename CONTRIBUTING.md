@@ -72,7 +72,7 @@ source ./sendgrid.env
 
 ##### Execute: #####
 
-See the [examples folder](https://github.com/sendgrid/ruby-http-client/tree/master/examples) to get started quickly.
+See the [examples folder](https://github.com/sendgrid/ruby-http-client/tree/HEAD/examples) to get started quickly.
 
 To run the example (after updating the emails):
 
@@ -89,20 +89,20 @@ Working examples that demonstrate usage.
 
 **ruby_http_client.rb**
 
-An HTTP client with a fluent interface using method chaining and reflection. By returning self on [method_missing](https://github.com/sendgrid/ruby-http-client/blob/master/lib/ruby_http_client.rb#L209) and [_()](https://github.com/sendgrid/ruby-http-client/blob/master/lib/ruby_http_client.rb#L194), we can dynamically build the URL using method chaining and [method_missing](https://github.com/sendgrid/ruby-http-client/blob/master/lib/ruby_http_client.rb#L209) allows us to dynamically receive the method calls to achieve reflection.
+An HTTP client with a fluent interface using method chaining and reflection. By returning self on [method_missing](https://github.com/sendgrid/ruby-http-client/blob/HEAD/lib/ruby_http_client.rb#L209) and [_()](https://github.com/sendgrid/ruby-http-client/blob/HEAD/lib/ruby_http_client.rb#L194), we can dynamically build the URL using method chaining and [method_missing](https://github.com/sendgrid/ruby-http-client/blob/HEAD/lib/ruby_http_client.rb#L209) allows us to dynamically receive the method calls to achieve reflection.
 
 This allows for the following mapping from a URL to a method chain:
 
-`/api_client/{api_key_id}/version` maps to `client.api_client._(api_key_id).version.<method>()` where <method> is a [HTTP verb](https://github.com/sendgrid/ruby-http-client/blob/master/lib/ruby_http_client.rb#L38).
+`/api_client/{api_key_id}/version` maps to `client.api_client._(api_key_id).version.<method>()` where <method> is a [HTTP verb](https://github.com/sendgrid/ruby-http-client/blob/HEAD/lib/ruby_http_client.rb#L38).
 
 <a name="testing"></a>
 ## Testing
 
 All PRs require passing tests before the PR will be reviewed.
 
-All test files are in the [`test`](https://github.com/sendgrid/ruby-http-client/tree/master/test) directory.
+All test files are in the [`test`](https://github.com/sendgrid/ruby-http-client/tree/HEAD/test) directory.
 
-For the purposes of contributing to this repo, please update the [`test_ruby_http_client.rb`](https://github.com/sendgrid/ruby-http-client/blob/master/test/test_ruby_http_client.rb) file with unit tests as you modify the code.
+For the purposes of contributing to this repo, please update the [`test_ruby_http_client.rb`](https://github.com/sendgrid/ruby-http-client/blob/HEAD/test/test_ruby_http_client.rb) file with unit tests as you modify the code.
 
 To run the tests:
 
