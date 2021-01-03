@@ -227,7 +227,9 @@ module SendGrid
     def build_http(host, port)
       params = [host, port]
       params += @proxy_options.values_at(:host, :port, :user, :pass) unless @proxy_options.empty?
-      add_ssl(Net::HTTP.new(*params))
+      http = add_ssl(Net::HTTP.new(*params))
+      http = add_http_options(http) unless @http_options.empty?
+      http
     end
 
     # Allow for https calls
@@ -241,6 +243,20 @@ module SendGrid
       if host.start_with?('https')
         http.use_ssl = true
         http.verify_mode = OpenSSL::SSL::VERIFY_PEER
+      end
+      http
+    end
+
+    # Add others http options to http object
+    #
+    # * *Args*    :
+    #   - +http+ -> HTTP::NET object
+    # * *Returns* :
+    #   - HTTP::NET object
+    #
+    def add_http_options(http)
+      @http_options.each do |attribute, value|
+        http.send("#{attribute}=", value)
       end
       http
     end
