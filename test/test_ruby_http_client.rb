@@ -253,6 +253,14 @@ class TestClient < Minitest::Test
     assert_equal(http.verify_mode, OpenSSL::SSL::VERIFY_PEER)
   end
 
+  def test_add_http_options
+    uri = URI.parse('https://localhost:4010')
+    http = Net::HTTP.new(uri.host, uri.port)
+    http = @client_with_options.add_http_options(http)
+    assert_equal(http.read_timeout, 60)
+    assert_equal(http.write_timeout, 60)
+  end
+
   def test__
     url1 = @client._('test')
     assert_equal(['test'], url1.url_path)
