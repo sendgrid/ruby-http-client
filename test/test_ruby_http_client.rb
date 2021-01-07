@@ -257,8 +257,8 @@ class TestClient < Minitest::Test
     uri = URI.parse('https://localhost:4010')
     http = Net::HTTP.new(uri.host, uri.port)
     http = @client_with_options.add_http_options(http)
+    assert_equal(http.open_timeout, 60)
     assert_equal(http.read_timeout, 60)
-    assert_equal(http.write_timeout, 60)
   end
 
   def test__
