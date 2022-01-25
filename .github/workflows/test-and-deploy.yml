@@ -38,7 +38,7 @@ jobs:
       - run: bundle install --with development
 
       - name: Run linter
-        run: bundle exec rubocop -A
+        run: bundle exec rake rubocop
         if: ${{ matrix.ruby != '2.4' }}
 
       - name: Run tests
