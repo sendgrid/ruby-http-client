@@ -1,6 +1,6 @@
 ![SendGrid Logo](twilio_sendgrid_logo.png)
 
-[![BuildStatus](https://travis-ci.com/sendgrid/ruby-http-client.svg?branch=main)](https://travis-ci.com/sendgrid/ruby-http-client)
+[![BuildStatus](https://github.com/sendgrid/ruby-http-client/actions/workflows/test-and-deploy.yml/badge.svg)](https://github.com/sendgrid/ruby-http-client/actions/workflows/test-and-deploy.yml)
 [![Gem Version](https://badge.fury.io/rb/ruby_http_client.svg)](https://badge.fury.io/rb/ruby_http_client)
 [![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![Twitter Follow](https://img.shields.io/twitter/follow/sendgrid.svg?style=social&label=Follow)](https://twitter.com/sendgrid)
