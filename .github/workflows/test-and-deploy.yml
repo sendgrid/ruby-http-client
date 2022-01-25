@@ -50,7 +50,7 @@ jobs:
     needs: [ test ]
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout smtpapi-ruby
+      - name: Checkout ruby-http-client
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
