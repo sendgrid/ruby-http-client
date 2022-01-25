@@ -41,6 +41,9 @@ Style/RescueModifier:
   Enabled: true
 Style/StringLiterals:
   Enabled: true
+  Exclude: 'Gemfile'
+Style/HashSyntax:
+  Exclude: 'Gemfile'
 Style/NumericLiterals:
   Enabled: false
 Style/FrozenStringLiteralComment:
