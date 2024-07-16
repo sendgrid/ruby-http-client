@@ -83,7 +83,7 @@ module SendGrid
 
   # A simple REST client.
   class Client
-    attr_reader :host, :request_headers, :url_path, :request, :http
+    attr_reader :host, :request_headers, :url_path, :request, :http, :proxy_options
     # * *Args*    :
     #   - +host+ -> Base URL for the api. (e.g. https://api.sendgrid.com)
     #   - +request_headers+ -> A hash of the headers you want applied on
@@ -275,7 +275,8 @@ module SendGrid
       url_path = name ? @url_path + [name] : @url_path
       Client.new(host: @host, request_headers: @request_headers,
                  version: @version, url_path: url_path,
-                 http_options: @http_options)
+                 http_options: @http_options,
+                 proxy_options: @proxy_options)
     end
 
     # Dynamically add segments to the url, then call a method.

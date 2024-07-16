@@ -64,13 +64,15 @@ class TestClient < Minitest::Test
     @host = 'http://localhost:4010'
     @version = 'v3'
     @http_options = { open_timeout: 60, read_timeout: 60 }
+    @proxy_options = { host: '127.0.0.1', port: 8080, user: 'anonymous', pass: 'secret'}
     @client = MockRequest.new(host: @host,
                               request_headers: @headers,
                               version: @version)
     @client_with_options = MockRequest.new(host: @host,
                                            request_headers: @headers,
                                            version: @version,
-                                           http_options: @http_options)
+                                           http_options: @http_options,
+                                           proxy_options: @proxy_options)
   end
 
   def test_init
@@ -264,6 +266,14 @@ class TestClient < Minitest::Test
   def test__
     url1 = @client._('test')
     assert_equal(['test'], url1.url_path)
+  end
+
+  def test___with_client_with_options
+    url1 = @client_with_options._('test')
+    assert_equal(['test'], url1.url_path)
+    assert_equal(@host, url1.host)
+    assert_equal(@headers, url1.request_headers)
+    assert_equal(@proxy_options, url1.proxy_options)
   end
 
   def test_ratelimit_core
