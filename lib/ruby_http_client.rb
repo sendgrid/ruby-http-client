@@ -335,4 +335,3 @@ module SendGrid
     # rubocop:enable Style/MissingRespondToMissing
   end
 end
-
