@@ -10,9 +10,8 @@ Gem::Specification.new do |spec|
   spec.description = 'Quickly and easily access any REST or REST-like API.'
   spec.homepage = 'http://github.com/sendgrid/ruby-http-client'
   spec.license = 'MIT'
-  spec.files = `git ls-files -z`.split("\x0")
+  spec.files = Dir['lib/**/*'] + ['LICENSE', 'README.md', 'CHANGELOG.md']
   spec.executables = spec.files.grep(/^bin/) { |f| File.basename(f) }
-  spec.test_files = spec.files.grep(/^(test|spec|features)/)
   spec.require_paths = ['lib']
 
   spec.add_development_dependency 'codecov'
