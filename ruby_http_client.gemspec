@@ -3,7 +3,7 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
 Gem::Specification.new do |spec|
   spec.name = 'ruby_http_client'
-  spec.version = '3.5.5'
+  spec.version = '3.6.0'
   spec.authors = ['Elmer Thomas']
   spec.email = 'help@twilio.com'
   spec.summary = 'A simple REST client'
