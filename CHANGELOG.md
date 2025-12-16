@@ -3,6 +3,12 @@ All notable changes to this project will be documented in this file.
 
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+[2022-03-09] Version 3.6.0
+--------------------------
+**Library - Chore**
+- [PR #137](https://github.com/sendgrid/ruby-http-client/pull/137): push Datadog Release Metric upon deploy success. Thanks to [@chaadow](https://github.com/chaadow)!
+
+
 [2022-03-09] Version 3.5.5
 --------------------------
 **Library - Chore**
